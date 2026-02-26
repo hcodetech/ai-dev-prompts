@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @page { size: A4; margin: 30px 38px; }
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif; color: #1a1a2e;
+    line-height: 1.5; margin: 0 auto; padding: 30px 38px;
+    font-size: 11.5px; max-width: 860px;
+  }
+
+  .header { border-bottom: 3px solid #2E75B6; padding-bottom: 8px; margin-bottom: 10px; }
+  .header h1 { font-size: 20px; color: #1a1a2e; margin: 0 0 2px 0; }
+  .header .subtitle { font-size: 11px; color: #666; margin: 0; }
+
+  .intro { font-size: 11.5px; color: #333; margin-bottom: 12px; line-height: 1.6; }
+
+  .toc { background: #f5f7fa; border-radius: 5px; padding: 10px 16px; margin-bottom: 16px; }
+  .toc-title { font-size: 11px; font-weight: bold; color: #2E75B6; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+  .toc-list { margin: 0; padding: 0; list-style: none; columns: 2; column-gap: 24px; }
+  .toc-list li { font-size: 10.5px; padding: 1.5px 0; }
+  .toc-list li a { color: #2E75B6; text-decoration: none; }
+  .toc-list li a:hover { text-decoration: underline; }
+  .toc-list li span.toc-num { font-weight: bold; margin-right: 3px; }
+
+  .section { margin-bottom: 18px; }
+  .section-header {
+    font-size: 13px; font-weight: bold; color: #2E75B6;
+    margin-bottom: 4px; padding-bottom: 3px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .section p { font-size: 11.5px; margin: 3px 0; color: #333; line-height: 1.5; }
+  .highlight { font-weight: bold; color: #1a1a2e; }
+
+  table { width: 100%; border-collapse: collapse; margin: 6px 0; font-size: 10.5px; }
+  th { background: #2E75B6; color: white; padding: 4px 7px; text-align: left; font-weight: bold; font-size: 10px; }
+  td { padding: 3px 7px; border-bottom: 1px solid #e8e8e8; }
+  tr:nth-child(even) { background: #f9fafb; }
+  .winner { color: #2E7D32; font-weight: bold; }
+  .caution { color: #E65100; }
+  .critical { color: #C62828; }
+
+  .stat-row { display: flex; gap: 8px; margin-bottom: 10px; }
+  .stat-box { flex: 1; text-align: center; background: #f5f7fa; border-radius: 4px; padding: 5px 4px; }
+  .stat-number { font-size: 17px; font-weight: bold; color: #2E75B6; margin: 0; }
+  .stat-label { font-size: 8.5px; color: #666; margin: 1px 0 0 0; text-transform: uppercase; letter-spacing: 0.3px; }
+
+  .grid { display: flex; gap: 12px; margin-bottom: 12px; }
+  .grid-item { flex: 1; background: #f5f7fa; border-radius: 5px; padding: 9px 10px; border-left: 3px solid #2E75B6; }
+  .grid-item h3 { font-size: 11px; color: #2E75B6; margin: 0 0 3px 0; }
+  .grid-item p { font-size: 10.5px; margin: 2px 0; color: #444; line-height: 1.4; }
+
+  .callout {
+    background: #EBF5FB; border-left: 3px solid #2E75B6; padding: 8px 11px;
+    margin: 8px 0; border-radius: 0 5px 5px 0;
+  }
+  .callout p { font-size: 10.5px; margin: 0; color: #333; line-height: 1.45; }
+  .callout .callout-title { font-weight: bold; color: #2E75B6; font-size: 11px; margin-bottom: 2px; }
+
+  .callout-green {
+    background: #E8F5E9; border-left: 3px solid #2E7D32; padding: 8px 11px;
+    margin: 8px 0; border-radius: 0 5px 5px 0;
+  }
+  .callout-green p { font-size: 10.5px; margin: 0; color: #333; line-height: 1.45; }
+  .callout-green .callout-title { font-weight: bold; color: #2E7D32; font-size: 11px; margin-bottom: 2px; }
+
+  .checklist { margin: 4px 0 0 0; padding: 0; list-style: none; }
+  .checklist li { font-size: 10.5px; color: #333; padding: 1.5px 0; padding-left: 15px; position: relative; line-height: 1.4; }
+  .checklist li::before { content: "\2713"; position: absolute; left: 0; color: #2E7D32; font-weight: bold; font-size: 10px; }
+
+  .bullet-list { margin: 4px 0 0 0; padding: 0; list-style: none; }
+  .bullet-list li { font-size: 10.5px; color: #333; padding: 1.5px 0; padding-left: 15px; position: relative; line-height: 1.4; }
+  .bullet-list li::before { content: "\2192"; position: absolute; left: 0; color: #2E75B6; font-weight: bold; }
+
+  .footer {
+    margin-top: 14px; padding-top: 6px; border-top: 1px solid #ddd;
+    font-size: 9px; color: #999; text-align: center;
+  }
+
+  .page-break { page-break-before: always; }
+
+  .two-col { display: flex; gap: 14px; margin-bottom: 10px; }
+  .two-col .col { flex: 1; }
+
+  .mini-header { font-size: 11px; font-weight: bold; color: #1a1a2e; margin: 0 0 3px 0; }
+
+  code { background: #f0f0f0; padding: 1px 3px; border-radius: 2px; font-family: 'Courier New', monospace; font-size: 9.5px; }
+
+  .divider { border: none; border-top: 1px solid #e8e8e8; margin: 14px 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>AI-Assisted Development: What We Learned &amp; How to Apply It</h1>
+  <p class="subtitle">HCode Technologies &bull; February 2026 &bull; Companion Technical Guide</p>
+</div>
+
+<div class="intro">
+We surveyed 23 developers, conducted 10+ in-depth interviews, and ran structured evaluations of three leading AI development tools. This guide shares the methodology, key findings, and the specific practices we're rolling out &mdash; written so any engineering team can learn from and apply the same approach.
+</div>
+
+<div class="toc">
+  <p class="toc-title">Contents</p>
+  <ul class="toc-list">
+    <li><span class="toc-num">1.</span> <a href="#eval">What We Evaluated &amp; How</a></li>
+    <li><span class="toc-num">2.</span> <a href="#cursor">Why We Chose Cursor</a></li>
+    <li><span class="toc-num">3.</span> <a href="#claude">Where Claude Fits &mdash; Model vs. IDE</a></li>
+    <li><span class="toc-num">4.</span> <a href="#gap">The Real Problem: Proficiency, Not Tools</a></li>
+    <li><span class="toc-num">5.</span> <a href="#practices">Three Practices That Move the Needle</a></li>
+    <li><span class="toc-num">6.</span> <a href="#security">Security Baseline</a></li>
+    <li><span class="toc-num">7.</span> <a href="#results">Real Results from Developers</a></li>
+    <li><span class="toc-num">8.</span> <a href="#resources">Open-Source Resources</a></li>
+  </ul>
+</div>
+
+<div class="section" id="eval">
+  <div class="section-header">1. What We Evaluated &amp; How</div>
+</div>
+
+<div class="stat-row">
+  <div class="stat-box"><p class="stat-number">23</p><p class="stat-label">Developers Surveyed</p></div>
+  <div class="stat-box"><p class="stat-number">30</p><p class="stat-label">Survey Responses</p></div>
+  <div class="stat-box"><p class="stat-number">3</p><p class="stat-label">Tools Evaluated</p></div>
+  <div class="stat-box"><p class="stat-number">5</p><p class="stat-label">Rating Metrics</p></div>
+  <div class="stat-box"><p class="stat-number">10+</p><p class="stat-label">1-on-1 Interviews</p></div>
+</div>
+
+<div class="section">
+  <p>We evaluated <span class="highlight">Cursor</span> (AI-first IDE), <span class="highlight">Google Antigravity</span> (multi-agent IDE), and <span class="highlight">Claude Code CLI</span> (Anthropic's terminal agent) across 5 metrics: autocomplete quality, agentic/multi-file editing, speed &amp; reliability, learning curve, and overall satisfaction. Five developers tried both Cursor and Antigravity independently, giving us controlled head-to-head data.</p>
+</div>
+
+<div class="two-col">
+  <div class="col">
+    <p class="mini-header">Ratings (1&ndash;5 scale)</p>
+    <table>
+      <tr><th>Metric</th><th>Cursor (18)</th><th>Antigravity (8)</th><th>Claude CLI (2)</th></tr>
+      <tr><td>Autocomplete</td><td class="winner">4.1</td><td>3.8</td><td>4.0</td></tr>
+      <tr><td>Agentic Editing</td><td>4.2</td><td>4.1</td><td>5.0</td></tr>
+      <tr><td>Speed &amp; Reliability</td><td class="winner">3.7</td><td>3.4</td><td>4.5</td></tr>
+      <tr><td>Learning Curve</td><td class="winner">4.6</td><td>3.9</td><td>5.0</td></tr>
+      <tr><td>Overall Satisfaction</td><td class="winner">4.1</td><td>3.9</td><td>4.5</td></tr>
+    </table>
+    <p style="font-size: 9.5px; color: #888; margin-top: 2px;">Claude CLI scored highest but with only 2 responses. Cursor leads at scale.</p>
+  </div>
+  <div class="col">
+    <p class="mini-header">Developer Vote (1 per developer)</p>
+    <table>
+      <tr><th>IDE</th><th>Votes</th><th>Share</th></tr>
+      <tr><td>Cursor</td><td>15</td><td class="winner">65%</td></tr>
+      <tr><td>Antigravity</td><td>5</td><td>22%</td></tr>
+      <tr><td>Claude Code CLI</td><td>2</td><td>9%</td></tr>
+      <tr><td>Undecided</td><td>1</td><td>4%</td></tr>
+    </table>
+    <p class="mini-header" style="margin-top: 8px;">Head-to-Head (5 devs tried both)</p>
+    <table>
+      <tr><th>Dev</th><th>Chose</th><th>Reason</th></tr>
+      <tr><td>A</td><td class="winner">Cursor</td><td>Speed/reliability gap</td></tr>
+      <tr><td>B</td><td class="winner">Cursor</td><td>Consistent across all metrics</td></tr>
+      <tr><td>C</td><td class="winner">Cursor</td><td>After 30-day AG trial</td></tr>
+      <tr><td>D</td><td>AG</td><td>90% automation workflow</td></tr>
+      <tr><td>E</td><td>AG</td><td>Token generosity</td></tr>
+    </table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="section" id="cursor">
+  <div class="section-header">2. Why We Chose Cursor &mdash; And Why One IDE Matters</div>
+  <p>When every developer uses the same IDE, you get shared context files, shared rules, consistent AI behavior, and faster onboarding. Fragmentation means the AI behaves differently on the same project depending on who's coding.</p>
+</div>
+
+<div class="section">
+  <table>
+    <tr><th>Dimension</th><th>Cursor</th><th>Google Antigravity</th></tr>
+    <tr><td>Plan Mode</td><td class="winner">Mature &mdash; saves plans to repo, step-by-step approval</td><td>Has planning; agents sometimes ignore own plans</td></tr>
+    <tr><td>Multi-Agent</td><td>Basic &mdash; multiple agents, manual switching</td><td class="winner">Best-in-class &mdash; inbox orchestration, 5+ async agents</td></tr>
+    <tr><td>Stability</td><td class="winner">Production-ready</td><td class="critical">Freezes, crashes, agent rogue behavior</td></tr>
+    <tr><td>Own Coding Model</td><td class="winner">Composer 1.5 with self-summarization</td><td>Relies on Gemini 3; reports of backend downgrades</td></tr>
+    <tr><td>Learning Curve</td><td class="winner">4.6/5 &mdash; VS Code familiarity</td><td>3.9/5 &mdash; Manager View is a paradigm shift</td></tr>
+    <tr><td>Security</td><td class="winner">No vulnerabilities reported</td><td class="critical">Backdoor vulnerability; agents may run sudo</td></tr>
+    <tr><td>Team Plan</td><td class="winner">$40/user/mo with admin controls</td><td class="critical">Not available &mdash; personal accounts only</td></tr>
+    <tr><td>Context System</td><td class="winner">.cursorrules &mdash; mature, version-controlled</td><td>.gravity config &mdash; breaks on directory moves</td></tr>
+  </table>
+</div>
+
+<div class="two-col">
+  <div class="col">
+    <p class="mini-header">Why Cursor Wins Today</p>
+    <ul class="checklist">
+      <li>65% vote, highest ratings at scale across all 5 metrics</li>
+      <li>Lowest adoption friction (4.6/5 learning curve)</li>
+      <li>Mature Plan Mode with version-controlled artifacts</li>
+      <li>Own Composer model optimized for coding</li>
+      <li>Multi-model: Claude Opus, Sonnet, GPT-5.x, Gemini</li>
+      <li>Team plan with admin controls, predictable billing</li>
+    </ul>
+  </div>
+  <div class="col">
+    <p class="mini-header">Why Antigravity Stays on the Radar</p>
+    <ul class="bullet-list">
+      <li>Multi-agent orchestration is a generation ahead</li>
+      <li>Browser-in-the-loop testing with screenshot proof</li>
+      <li>Free during preview period</li>
+      <li>Transformative results on large migrations (power users)</li>
+      <li>"Architect, not coder" vision is where the industry heads</li>
+    </ul>
+    <p style="font-size: 9.5px; color: #888; margin-top: 3px;">Controlled pilot on one project; re-evaluate when Google stabilizes.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="section" id="claude">
+  <div class="section-header">3. Where Claude Fits &mdash; Model vs. IDE</div>
+  <p><span class="highlight">Claude is the AI model</span> (by Anthropic). <span class="highlight">Cursor is the IDE</span> that runs Claude inside it. These aren't competing choices &mdash; they're complementary layers. Claude Opus 4.6 is the most advanced coding model available today, excelling at deep reasoning, cross-file architecture, complex debugging, and production-quality code generation. We use it heavily.</p>
+  <p>The question is <em>how</em> you access Claude: through an IDE (Cursor) or through a standalone terminal agent (Claude Code CLI).</p>
+</div>
+
+<div class="section">
+  <table>
+    <tr><th>Dimension</th><th>Cursor IDE (with Claude inside)</th><th>Claude Code CLI (standalone)</th></tr>
+    <tr><td>Interface</td><td class="winner">Full IDE &mdash; visual diffs, inline edits, file browser, extensions</td><td>Terminal-only &mdash; powerful but no visual feedback</td></tr>
+    <tr><td>Autocomplete</td><td class="winner">Real-time Tab completions as you type</td><td>No autocomplete &mdash; explicit prompts only</td></tr>
+    <tr><td>Code Review</td><td class="winner">Visual diff view &mdash; approve/reject inline</td><td>Text diffs in terminal</td></tr>
+    <tr><td>Plan Mode</td><td class="winner">Saves .md plans, step-by-step approval</td><td>Has planning but less structured</td></tr>
+    <tr><td>Learning Curve</td><td class="winner">Familiar VS Code (team: 4.6/5)</td><td>Requires terminal proficiency</td></tr>
+    <tr><td>Team Consistency</td><td class="winner">Shared rules, admin controls, standardization</td><td>Individual config &mdash; no team-wide controls</td></tr>
+    <tr><td>Model Access</td><td>Claude, GPT-5.x, Gemini, Composer 1.5</td><td>Claude models only</td></tr>
+    <tr><td>Deep Reasoning</td><td>Excellent (Claude Opus as backend)</td><td class="winner">Edge on large codebases (200K+ tokens, 5.5x more token-efficient)</td></tr>
+    <tr><td>Autonomous Tasks</td><td>Good &mdash; Agent mode for multi-step</td><td class="winner">Superior for CI/CD, multi-repo refactors, bulk ops</td></tr>
+    <tr><td>Cost</td><td class="winner">$20&ndash;40/user/mo (flat)</td><td>Usage-based ($20&ndash;100+/mo)</td></tr>
+  </table>
+</div>
+
+<div class="callout">
+  <p class="callout-title">Our Approach: Cursor as the IDE, Claude as the Brain</p>
+  <p>Cursor is the standard IDE for daily development &mdash; visual workflow, team consistency, lower learning curve. <strong>Claude Opus 4.6 runs inside Cursor</strong> as the primary model for complex tasks. Claude Code CLI is available for senior developers on specific use cases: large-scale multi-repo refactoring, CI/CD automation, and infrastructure work where terminal-native workflows are more natural.</p>
+  <p style="margin-top: 4px;"><strong>For clients:</strong> If your team uses Claude-powered tools separately, we recommend allocating dedicated API quotas to avoid rate-limiting during heavy development sprints. Happy to advise on configuration.</p>
+</div>
+
+<hr class="divider">
+
+<div class="section" id="gap">
+  <div class="section-header">4. The Real Problem: Proficiency, Not Tools</div>
+  <p>The most important finding: <span class="highlight">most developers use AI tools at a basic level</span>, regardless of which tool. The gap between "using AI" and "using AI effectively" is where the real productivity unlock lives.</p>
+</div>
+
+<div class="section">
+  <table>
+    <tr><th>Feature</th><th>Adoption</th><th>Assessment</th></tr>
+    <tr><td>@ File References</td><td>80%</td><td class="winner">Good baseline</td></tr>
+    <tr><td>Multi-file Editing</td><td>77%</td><td class="winner">Healthy</td></tr>
+    <tr><td>Terminal Commands via AI</td><td>73%</td><td class="winner">Solid</td></tr>
+    <tr><td>Plan / Think Mode</td><td>50%</td><td class="caution">Half the team skips structured planning</td></tr>
+    <tr><td>Context Files (.cursorrules)</td><td>30%</td><td class="critical">Critical gap &mdash; #1 priority</td></tr>
+  </table>
+  <p style="margin-top: 4px;"><span class="highlight">Context files at 30%</span> is the single biggest issue. Without one, every AI interaction starts from scratch &mdash; the AI doesn't know your stack, conventions, or what files to avoid. With it, the AI behaves like a developer who has read your project docs.</p>
+  <p><span class="highlight">Plan Mode at 50%</span> means half the team jumps to code generation without making the AI think first. For tasks touching 3+ files, Plan Mode forces the AI to outline changes, intent, and risks before writing code.</p>
+</div>
+
+<hr class="divider">
+
+<div class="section" id="practices">
+  <div class="section-header">5. Three Practices That Actually Move the Needle</div>
+  <p>Any engineering team can adopt these regardless of which AI tool they use.</p>
+</div>
+
+<div class="grid">
+  <div class="grid-item">
+    <h3>Context Files</h3>
+    <p><strong>What:</strong> A config file (e.g. <code>.cursorrules</code>) committed to your repo that tells the AI your stack, architecture, naming conventions, and security boundaries.</p>
+    <p><strong>Why:</strong> Without it, AI guesses &mdash; React patterns in an Angular project, snake_case where you use camelCase. With it, every suggestion aligns with your conventions.</p>
+    <p><strong>How:</strong> We've open-sourced a prompt that scans your repo and generates one automatically.</p>
+  </div>
+  <div class="grid-item">
+    <h3>Plan Mode</h3>
+    <p><strong>What:</strong> AI produces a plan before writing code: which files change, intended edits, risks. You review before execution.</p>
+    <p><strong>Why:</strong> Without planning, AI modifies wrong files or introduces side effects. With it, the AI thinks before it acts.</p>
+    <p><strong>Rule:</strong> If a task touches 3+ files, always Plan Mode first.</p>
+  </div>
+  <div class="grid-item">
+    <h3>Model Selection</h3>
+    <p><strong>What:</strong> Deliberately choosing which AI model based on task complexity, not relying on "Auto."</p>
+    <p><strong>Why:</strong> Auto picks fast but less capable models. Complex debugging needs Claude Opus. Quick edits need Sonnet/Haiku.</p>
+    <p><strong>Rule:</strong> Opus for complex work. Faster models for routine. Never Auto for important tasks.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="section" id="security">
+  <div class="section-header">6. Security Baseline</div>
+  <p>AI tools can read and expose sensitive files if not configured. Our context files enforce explicit exclusion rules per project.</p>
+</div>
+
+<div class="two-col">
+  <div class="col">
+    <p class="mini-header">What We Protect</p>
+    <ul class="checklist">
+      <li>Environment files (<code>.env</code>, <code>.env.*</code>)</li>
+      <li>API keys, secrets, credentials</li>
+      <li>Private keys (<code>*.pem</code>, <code>*.key</code>)</li>
+      <li>Auth modules and auth configs</li>
+      <li>Database migration files</li>
+      <li>CI/CD pipeline configs</li>
+      <li>Lock files (<code>package-lock.json</code>, <code>yarn.lock</code>)</li>
+      <li>Generated/vendor code (<code>dist/</code>, <code>node_modules/</code>)</li>
+    </ul>
+  </div>
+  <div class="col">
+    <p class="mini-header">How It Works</p>
+    <p>Context files include a "protected areas" section that tells the AI: <em>never read, modify, or reference these files.</em> Separate from <code>.gitignore</code> &mdash; .gitignore affects Git, not what AI accesses in your working directory.</p>
+    <p style="margin-top: 4px;">Also enforces: "never hardcode secrets", "use env vars for all config", "ask before modifying auth/ directory."</p>
+    <p style="margin-top: 4px;"><span class="highlight">Key:</span> Configured per-project, committed to repo &mdash; applies to every developer automatically.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="section" id="results">
+  <div class="section-header">7. Real Results from Developers</div>
+  <p>Outcomes reported during our survey and interviews:</p>
+  <table>
+    <tr><th>Task</th><th>Before AI</th><th>With AI</th><th>Tool</th></tr>
+    <tr><td>Flutter to Angular migration</td><td>~30 days</td><td class="winner">10&ndash;12 days</td><td>Multi-agent IDE</td></tr>
+    <tr><td>Django 4 to 6 upgrade</td><td>Multi-day</td><td class="winner">Single session</td><td>Multi-agent IDE</td></tr>
+    <tr><td>Cross-stack JWT issue (FE+BE)</td><td>Hours</td><td class="winner">One prompt</td><td>AI IDE</td></tr>
+    <tr><td>Module restructuring (70&ndash;80%)</td><td>Days</td><td class="winner">1&ndash;2 prompts</td><td>CLI Agent</td></tr>
+    <tr><td>Cross-repo feature replication</td><td>Hours</td><td class="winner">Under 2 hours</td><td>AI IDE</td></tr>
+  </table>
+  <p style="font-size: 9.5px; color: #888; margin-top: 2px;">Self-reported; actual timelines vary by project complexity.</p>
+</div>
+
+<hr class="divider">
+
+<div class="section" id="resources">
+  <div class="section-header">8. Open-Source Resources</div>
+</div>
+
+<div class="callout-green">
+  <p class="callout-title">github.com/hcodetech/ai-dev-prompts</p>
+  <p>Our public repository of curated AI prompts for developer workflows:</p>
+  <ul class="checklist" style="margin-top: 3px;">
+    <li><strong>Context file generator</strong> &mdash; paste into your AI IDE, scans your repo and generates a project-specific <code>.cursorrules</code> automatically</li>
+    <li><strong>Templates</strong> &mdash; starting-point context files for common stacks (Next.js, Django, Rails, etc.)</li>
+    <li><strong>Workflow prompts</strong> &mdash; code review, refactoring, debugging, migration prompts</li>
+  </ul>
+  <p style="margin-top: 4px;">We'll keep adding to this. Contributions welcome.</p>
+</div>
+
+<div class="section">
+  <p class="mini-header">Context File Landscape</p>
+  <p>Every major AI IDE has its own project context file. Content is ~90% the same; the filename differs:</p>
+  <table>
+    <tr><th>Tool</th><th>File</th><th>Location</th></tr>
+    <tr><td>Cursor</td><td><code>.cursorrules</code></td><td>Project root</td></tr>
+    <tr><td>Claude Code CLI</td><td><code>CLAUDE.md</code></td><td>Project root</td></tr>
+    <tr><td>GitHub Copilot</td><td><code>.github/copilot-instructions.md</code></td><td>.github/</td></tr>
+    <tr><td>Google Antigravity</td><td><code>.antigravity/rules.md</code></td><td>.antigravity/</td></tr>
+    <tr><td>Windsurf</td><td><code>.windsurfrules</code></td><td>Project root</td></tr>
+    <tr><td>OpenAI Codex</td><td><code>AGENTS.md</code></td><td>Project root</td></tr>
+  </table>
+  <p style="font-size: 9.5px; color: #888; margin-top: 2px;">Our generator prompt produces any of these formats.</p>
+</div>
+
+<div class="section" style="margin-top: 10px;">
+  <p>This is the first in a series of technical insights we plan to share. Questions or want help applying these practices? Reach out.</p>
+</div>
+
+<div class="footer">
+  HCode Technologies &bull; AI-Assisted Development: Technical Guide &bull; February 2026 &bull; Contact: Shashank
+</div>
+
+</body>
+</html>
