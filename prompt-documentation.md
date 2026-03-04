@@ -1,0 +1,84 @@
+# Prompt: Platform Documentation
+
+> Use this prompt with Claude Code (or similar AI coding assistant) to generate comprehensive platform documentation for a multi-repo project. Run from a docs repository that has read access to all codebases.
+
+---
+
+## Instructions for AI
+
+You are creating handover-ready platform documentation for a multi-repo software project. The documentation should enable a new developer to understand the system and get it running locally within 1-2 hours.
+
+### Setup
+
+1. Identify all repositories in scope (check for references in READMEs, deployment configs, or ask the user).
+2. Read the main README, settings files, and deployment configs in each repo to understand the tech stack.
+3. Ask the user for: production URLs, staging URLs, infrastructure provider, and any existing documentation to build on.
+
+### Documents to Create
+
+Create each document as a separate markdown file with kebab-case naming.
+
+#### 1. `README.md` — Platform Overview
+- One-paragraph platform description
+- Architecture diagram (or placeholder prompt for generating one)
+- Table of all repos with: name, tech stack, purpose, production URL
+- Links to all other documentation files
+- Quick start: which repo to clone first, what order to set up
+
+#### 2. `technical-architecture-api-reference.md` — Architecture & API Reference
+- System architecture: how the components connect (frontend → backend → database → workers → external services)
+- All API endpoints: route, HTTP method, auth required, which view/controller handles it
+- Authentication patterns: how tokens/sessions work, what headers are needed
+- Inter-service communication: how repos talk to each other (webhooks, shared DB, message queues)
+- Generate endpoint list by scanning URL configs (`urls.py`, route files, API directories)
+
+#### 3. `database-schema-documentation.md` — Database Schema
+- All models/tables grouped by domain
+- Field definitions with types
+- Relationships (FK, M2M, one-to-one)
+- Key indexes
+- Generate by scanning model files, migration files, or ORM definitions
+
+#### 4. `aws-operations-runbook.md` (or equivalent for your cloud provider)
+- Infrastructure inventory: all services used (compute, database, storage, CDN, email, DNS, etc.)
+- How to SSH/access each server
+- How to deploy each component (manual steps or CI/CD trigger)
+- How to restart services (app server, workers, database)
+- How to view logs
+- How to run database backups/restores
+- Troubleshooting: common issues and fixes
+- Generate by scanning: deployment scripts, supervisor/systemd configs, CI/CD workflows, cloud config files
+
+#### 5. Background Jobs / Task Guide (if applicable)
+- All async tasks (Celery, Sidekiq, Bull, cron, etc.)
+- What triggers each task
+- What each task does
+- Scheduling config (cron expressions, beat schedule)
+- Worker configuration (concurrency, queues)
+- How to monitor and debug failed tasks
+- Generate by scanning: task definitions, scheduler config, worker configs
+
+#### 6. Plugin/Extension Guides (if applicable)
+- One guide per major plugin, app, or extension (e.g., Shopify app, Slack bot, browser extension)
+- Architecture: how the plugin connects to the main platform
+- Endpoints it calls
+- Webhooks it receives
+- Auth flow
+- Deployment process
+- Configuration / environment variables
+
+### Document Conventions
+
+- Use kebab-case filenames
+- Start each file with `# Title` and a scope line: `> Scope: repo-a, repo-b | Date: YYYY-MM-DD`
+- Use tables for structured data (endpoints, env vars, models)
+- Include file paths when referencing source code
+- Cross-link between documents where relevant
+- Do NOT include real secret values — use descriptions like "Configured in `local_settings.py`"
+
+### Process
+
+1. Scan all repos to understand the full system before writing anything.
+2. Create a plan listing which documents you'll create and what each will cover.
+3. Write documents one at a time, reading the relevant source files as you go.
+4. After all documents are written, create/update `CLAUDE.md` with a table of all docs for future AI sessions.
