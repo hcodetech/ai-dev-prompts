@@ -1,4 +1,4 @@
-# Prompts: Documentation, Audit & Context Update
+# Codebase Audit & Documentation
 
 A 3-prompt workflow for generating comprehensive documentation, running a codebase audit, and updating AI context files across a multi-repo project.
 

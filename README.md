@@ -1,6 +1,6 @@
 # ai-dev-prompts
 
-Curated AI prompts for developer workflows — context file generation, code review, refactoring, and more. Built for teams standardizing on AI-assisted development.
+Curated AI prompts for developer workflows — context file generation, codebase documentation, audits, and more. Built for teams standardizing on AI-assisted development.
 
 ## The Problem
 
@@ -25,9 +25,9 @@ Every major AI coding tool has its own project context file. Same purpose, diffe
 
 ## What's in This Repo
 
-### Context File Generators (`context-files/`)
+### 1. Context File Generators (`context-files/`)
 
-Prompts that scan your existing codebase and auto-generate the right context file. No manual writing required — paste the prompt, review the output, commit.
+Prompts that scan your existing codebase and auto-generate the right context file for your AI tool. No manual writing required — paste the prompt, review the output, commit.
 
 | Prompt | Tool | Type |
 |---|---|---|
@@ -37,46 +37,75 @@ Prompts that scan your existing codebase and auto-generate the right context fil
 | [gemini-rules-generator.md](context-files/gemini-rules-generator.md) | Gemini CLI | `GEMINI.md` — terminal agent onboarding docs |
 | [antigravity-rules-generator.md](context-files/antigravity-rules-generator.md) | Google Antigravity | `.agent/rules/*.md` with activation modes |
 
-### Workflow Prompts (`prompts/`)
+### 2. Codebase Audit & Documentation (`codebase-audit-docs/`)
 
-A 3-prompt pipeline for generating full platform documentation, running a codebase audit, and updating AI context files across all repos. See the [prompts README](prompts/README.md) for setup and usage.
+A 3-prompt pipeline for multi-repo projects. Generates full platform documentation, runs a comprehensive codebase audit, and then updates AI context files in every repo — all using AI.
+
+**The workflow:**
+
+```
+1. Documentation  →  2. Audit  →  3. Context Update
+   (generates)        (analyzes)     (propagates)
+```
+
+| Step | Prompt | What It Does |
+|------|--------|-------------|
+| 1 | [prompt-documentation.md](codebase-audit-docs/prompt-documentation.md) | Scans all repos, generates platform docs (architecture, API reference, schema, runbook) into a dedicated documentation repo |
+| 2 | [prompt-audit.md](codebase-audit-docs/prompt-audit.md) | Reads generated docs + source code, produces a scored audit with executive summary and per-area reports |
+| 3 | [prompt-context-update.md](codebase-audit-docs/prompt-context-update.md) | Uses docs + audit findings to update `.cursorrules` and `CLAUDE.md` in every repo |
+
+**Prerequisites:** Install [`gh` CLI](https://cli.github.com/), clone all project repos into one folder, create an empty documentation repo. Full setup instructions in the [codebase-audit-docs README](codebase-audit-docs/README.md).
+
+### 3. Project Handover (`prompt-handover.md`)
+
+A prompt for generating a structured handover checklist — credentials inventory, account access transfer, infrastructure inventory, DNS, verification steps, and credential rotation plan. Best used after documentation and audit are complete.
 
 | Prompt | What It Does |
 |--------|-------------|
-| [prompt-documentation.md](prompts/prompt-documentation.md) | Generates cross-repo platform docs (architecture, API, schema, runbook) |
-| [prompt-audit.md](prompts/prompt-audit.md) | Runs a comprehensive codebase audit with scorecard and action plan |
-| [prompt-context-update.md](prompts/prompt-context-update.md) | Updates `.cursorrules` and `CLAUDE.md` in every repo using docs + audit |
+| [prompt-handover.md](prompt-handover.md) | Generates a comprehensive handover checklist for transferring a project to a new team |
 
 ### Coming Soon
 
 - **Copilot instructions generator** — `.github/copilot-instructions.md`
 - **Windsurf / Cline generators** — `.windsurfrules`, `.clinerules`
 - **Codex agent generator** — `AGENTS.md`
-- **Workflow prompts** — code review, migration, refactoring, debugging
 - **Output templates** — starter templates for each context file format
 
 ## Quick Start
 
-1. Pick the prompt that matches your AI tool
-2. Open the prompt file and copy the code block
-3. Paste it into your AI tool (Cursor Agent mode, Claude Code, Gemini CLI, etc.)
-4. **Use the best model available** — Claude Sonnet/Opus, GPT-4o, or Gemini 2.5 Pro
-5. Review the output — verify stack versions, conventions, and security rules
-6. Commit the generated file to git
+### For context file generation (single repo)
+
+1. Pick the prompt that matches your AI tool (see decision tree below)
+2. Copy the prompt and paste it into your AI tool
+3. **Use the best model available** — Claude Sonnet/Opus, GPT-4o, or Gemini 2.5 Pro
+4. Review the output — verify stack versions, conventions, and security rules
+5. Commit the generated file to git
+
+### For documentation + audit (multi-repo)
+
+1. Follow the setup in the [codebase-audit-docs README](codebase-audit-docs/README.md)
+2. Run the 3 prompts in order: documentation → audit → context update
+3. Review, commit, and push all generated files
 
 ## Which Prompt Should I Use?
 
 ```
-Are you using an IDE or a terminal agent?
+What do you need?
 
-IDE (Cursor, Antigravity, VS Code)
-├── Simple/single repo? → cursorrules-small-repo.md
-├── Complex/monorepo?   → cursorrules-large-repo.md
-└── Antigravity?        → antigravity-rules-generator.md
+Generate a context file for ONE repo
+├── IDE (Cursor, Antigravity, VS Code)
+│   ├── Simple/single repo? → cursorrules-small-repo.md
+│   ├── Complex/monorepo?   → cursorrules-large-repo.md
+│   └── Antigravity?        → antigravity-rules-generator.md
+└── Terminal agent (CLI)
+    ├── Claude Code?  → claude-md-generator.md
+    └── Gemini CLI?   → gemini-rules-generator.md
 
-Terminal agent (CLI)
-├── Claude Code?  → claude-md-generator.md
-└── Gemini CLI?   → gemini-rules-generator.md
+Document & audit a MULTI-REPO platform
+└── codebase-audit-docs/ (run all 3 prompts in order)
+
+Hand over a project to a new team
+└── prompt-handover.md
 ```
 
 ## Design Principles
