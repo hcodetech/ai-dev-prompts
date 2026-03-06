@@ -4,6 +4,10 @@
 
 ---
 
+## Prerequisites
+
+Run this from a parent directory containing all project repos. Ensure all repos are on their main/master branch and recently pulled.
+
 ## Instructions for AI
 
 You are conducting a codebase audit for a multi-repo software platform. The audit is an objective technical report intended for founders and stakeholders — not a task list for the development team. Be factual, reference specific files and line numbers, and avoid defensive or apologetic framing.
@@ -153,9 +157,11 @@ For "Small Startup Team" adjusted score: add 1-2 points where the gap is clearly
 
 ### Process
 
-1. Read all repos thoroughly before writing anything. Scan: settings, configs, CI/CD, dependencies, env files, model files, view/controller files, test files, README files.
-2. Create a plan listing all reports and key findings per area.
-3. Write detailed reports first (security, code quality, etc.).
-4. Write the executive summary LAST — it synthesizes the detailed reports.
-5. Review all files for: real credential values (remove), defensive language (rewrite), factual accuracy.
-6. Update `CLAUDE.md` and `README.md` to link to the audit reports.
+1. If documentation was generated from Prompt 1, read all generated docs before starting the audit. Reference the documentation where relevant rather than re-describing architecture.
+2. Read all repos thoroughly before writing anything. Scan: settings, configs, CI/CD, dependencies, env files, model files, view/controller files, test files, README files.
+3. Create a plan listing all reports and key findings per area.
+4. Write detailed reports first (security, code quality, etc.).
+5. Write the executive summary LAST — it synthesizes the detailed reports.
+6. Review all files for: real credential values (remove), defensive language (rewrite), factual accuracy.
+7. Skip section 10 (Blockchain Audit) unless the project has blockchain/smart contract components.
+8. Update `CLAUDE.md` and `README.md` to link to the audit reports.

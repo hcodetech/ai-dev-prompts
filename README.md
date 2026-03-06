@@ -37,6 +37,16 @@ Prompts that scan your existing codebase and auto-generate the right context fil
 | [gemini-rules-generator.md](context-files/gemini-rules-generator.md) | Gemini CLI | `GEMINI.md` — terminal agent onboarding docs |
 | [antigravity-rules-generator.md](context-files/antigravity-rules-generator.md) | Google Antigravity | `.agent/rules/*.md` with activation modes |
 
+### Workflow Prompts (`prompts/`)
+
+A 3-prompt pipeline for generating full platform documentation, running a codebase audit, and updating AI context files across all repos. See the [prompts README](prompts/README.md) for setup and usage.
+
+| Prompt | What It Does |
+|--------|-------------|
+| [prompt-documentation.md](prompts/prompt-documentation.md) | Generates cross-repo platform docs (architecture, API, schema, runbook) |
+| [prompt-audit.md](prompts/prompt-audit.md) | Runs a comprehensive codebase audit with scorecard and action plan |
+| [prompt-context-update.md](prompts/prompt-context-update.md) | Updates `.cursorrules` and `CLAUDE.md` in every repo using docs + audit |
+
 ### Coming Soon
 
 - **Copilot instructions generator** — `.github/copilot-instructions.md`
