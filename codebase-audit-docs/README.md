@@ -93,7 +93,7 @@ documentation/
 
 Here's an example of what a completed documentation repo looks like on GitHub:
 
-![Example documentation repo on GitHub](../assets/example-documentation-repo.png)
+![Example documentation repo on GitHub](../site/assets/example-documentation-repo.png)
 
 ## Bonus: Architecture Diagram
 
@@ -103,6 +103,6 @@ After documentation is generated, ask your AI session to create an architecture 
 
 This produces a detailed prompt you can use with Gemini to generate a diagram like this:
 
-![Example architecture diagram generated with Gemini](../assets/example-architecture-diagram.png)
+![Example architecture diagram generated with Gemini](../site/assets/example-architecture-diagram.png)
 
 Save the generated diagram as `architecture/architecture_current.jpg` in your documentation repo.

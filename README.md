@@ -1,6 +1,6 @@
 # ai-dev-prompts
 
-Curated AI prompts for developer workflows — context file generation, codebase documentation, audits, and more. Built for teams standardizing on AI-assisted development.
+Curated AI prompts for developer workflows — context file generation, codebase documentation, audits, web optimization, and more. Built for teams standardizing on AI-assisted development.
 
 ## The Problem
 
@@ -24,6 +24,15 @@ Every major AI coding tool has its own project context file. Same purpose, diffe
 **Only ~30% of developers use context files.** This is the single biggest gap between "fancy autocomplete" and genuinely productive AI-assisted development.
 
 ## What's in This Repo
+
+```
+ai-dev-prompts/
+├── context-files/           # AI tool context file generators
+├── codebase-audit-docs/     # 3-prompt multi-repo audit pipeline
+├── web-optimization/        # PageSpeed + SEO/GEO/AEO prompts
+├── workflows/               # Process & handover prompts
+└── site/                    # HTML guide page + assets
+```
 
 ### 1. Context File Generators (`context-files/`)
 
@@ -56,13 +65,22 @@ A 3-prompt pipeline for multi-repo projects. Generates full platform documentati
 
 **Prerequisites:** Install [`gh` CLI](https://cli.github.com/), clone all project repos into one folder, create an empty documentation repo. Full setup instructions in the [codebase-audit-docs README](codebase-audit-docs/README.md).
 
-### 3. Project Handover (`prompt-handover.md`)
+### 3. Web Optimization (`web-optimization/`)
 
-A prompt for generating a structured handover checklist — credentials inventory, account access transfer, infrastructure inventory, DNS, verification steps, and credential rotation plan. Best used after documentation and audit are complete.
+Prompts for auditing and improving web performance and search visibility. Both follow a 2-phase pattern: audit first, then implement fixes one at a time.
 
 | Prompt | What It Does |
 |--------|-------------|
-| [prompt-handover.md](prompt-handover.md) | Generates a comprehensive handover checklist for transferring a project to a new team |
+| [pagespeed-optimization.md](web-optimization/pagespeed-optimization.md) | PageSpeed audit — critical request chains, unused JS, render-blocking resources, LCP, image optimization |
+| [seo-geo-aeo-optimization.md](web-optimization/seo-geo-aeo-optimization.md) | Full SEO + GEO (AI search engines) + AEO (voice/snippets) audit — meta tags, structured data, llms.txt, FAQ schema |
+
+### 4. Workflows (`workflows/`)
+
+Process prompts for team operations and project management.
+
+| Prompt | What It Does |
+|--------|-------------|
+| [project-handover.md](workflows/project-handover.md) | Structured handover checklist — credentials, access transfer, infrastructure, DNS, verification steps |
 
 ### Coming Soon
 
@@ -104,8 +122,12 @@ Generate a context file for ONE repo
 Document & audit a MULTI-REPO platform
 └── codebase-audit-docs/ (run all 3 prompts in order)
 
+Optimize web performance
+├── PageSpeed / Core Web Vitals → web-optimization/pagespeed-optimization.md
+└── SEO / AI search / snippets  → web-optimization/seo-geo-aeo-optimization.md
+
 Hand over a project to a new team
-└── prompt-handover.md
+└── workflows/project-handover.md
 ```
 
 ## Design Principles
@@ -152,6 +174,14 @@ This repo is a living collection. Contributions are welcome and encouraged.
 - [Gemini CLI docs](https://github.com/google-gemini/gemini-cli) — GEMINI.md and CLI reference
 - [Claude Code docs](https://docs.anthropic.com/en/docs/claude-code) — CLAUDE.md and CLI reference
 - [Google Antigravity](https://developers.googleblog.com/build-with-google-antigravity-our-new-agentic-development-platform/) — Antigravity platform overview
+
+### Useful Claude Code Skills & Agent Roles
+
+Community-built skills and agent configurations you can add to Claude Code:
+
+- [agency-agents](https://github.com/msitarzewski/agency-agents) — specialized agent roles for Claude Code
+- [gstack](https://github.com/garrytan/gstack) — skills for QA, design review, shipping, and more
+- [get-shit-done](https://github.com/gsd-build/get-shit-done) — productivity-focused agent skills
 
 ## License
 
